@@ -1,0 +1,72 @@
+#include <stdio.h>
+
+#define NUM_ACCOUNTS 3
+
+void displayMenu() {
+    printf("\n--- Menu ---\n");
+    printf("1. Deposit\n");
+    printf("2. Withdraw\n");
+    printf("3. Check Balance\n");
+    printf("4. Exit\n");
+    printf("Choose an option: ");
+}
+
+int main() {
+    float accounts[NUM_ACCOUNTS] = {0.0, 0.0, 0.0};
+    int choice, accountNumber;
+    float amount;
+
+    while (1) {
+        displayMenu();
+        scanf("%d", &choice);
+
+        if (choice == 4) {
+            printf("Exiting...\n");
+            break;
+        }
+
+        printf("Select account number (1-%d): ", NUM_ACCOUNTS);
+        scanf("%d", &accountNumber);
+
+        if (accountNumber < 1 || accountNumber > NUM_ACCOUNTS) {
+            printf("Invalid account number. Please try again.\n");
+            continue;
+        }
+
+        switch (choice) {
+            case 1: // Deposit
+                printf("Enter amount to deposit: ");
+                scanf("%f", &amount);
+                if (amount <= 0) {
+                    printf("Invalid amount. Please enter a positive number.\n");
+                } else {
+                    accounts[accountNumber - 1] += amount;
+                    printf("Successfully deposited %.2f to account %d.\n", amount, accountNumber);
+                }
+                break;
+
+            case 2: // Withdraw
+                printf("Enter amount to withdraw: ");
+                scanf("%f", &amount);
+                if (amount <= 0) {
+                    printf("Invalid amount. Please enter a positive number.\n");
+                } else if (amount > accounts[accountNumber - 1]) {
+                    printf("Insufficient funds in account %d.\n", accountNumber);
+                } else {
+                    accounts[accountNumber - 1] -= amount;
+                    printf("Successfully withdrew %.2f from account %d.\n", amount, accountNumber);
+                }
+                break;
+
+            case 3: // Check Balance
+                printf("Balance in account %d: %.2f\n", accountNumber, accounts[accountNumber - 1]);
+                break;
+
+            default:
+                printf("Invalid choice. Please try again.\n");
+                break;
+        }
+    }
+
+    return 0;
+}
